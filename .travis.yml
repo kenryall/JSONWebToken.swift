@@ -37,9 +37,9 @@ install:
   - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
 
 script:
-- swift package generate-xcodeproj
-- if [ -n "$SWIFTPM_BUILD" ]; then swift build; fi
-- if [ -n "$SWIFTPM_TEST" ]; then swift test; fi
-- if [ -n "$XCODE_BUILD_SDK" ] || [ -n "$XCODE_TEST_SDK" ]; then swift package generate-xcodeproj; fi
-- if [ -n "$XCODE_BUILD_SDK" ]; then xcodebuild -project JWT.xcodeproj -scheme JWT-Package build -sdk $XCODE_BUILD_SDK; fi
-- if [ -n "$XCODE_TEST_SDK" ]; then xcodebuild -project JWT.xcodeproj -scheme JWT-Package test -sdk $XCODE_TEST_SDK; fi
+- swift test
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project JWT.xcodeproj -scheme JWT-OSX test -sdk macosx; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project JWT.xcodeproj -scheme JWT-iOS build -sdk iphonesimulator; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project JWT.xcodeproj -scheme JWT-tvOS build -sdk appletvsimulator; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project JWT.xcodeproj -scheme JWT-watchOS build -sdk watchsimulator; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pod lib lint; fi
