@@ -37,6 +37,7 @@ install:
   - eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
 
 script:
+- swift package generate-xcodeproj
 - if [ -n "$SWIFTPM_BUILD" ]; then swift build; fi
 - if [ -n "$SWIFTPM_TEST" ]; then swift test; fi
 - if [ -n "$XCODE_BUILD_SDK" ] || [ -n "$XCODE_TEST_SDK" ]; then swift package generate-xcodeproj; fi
